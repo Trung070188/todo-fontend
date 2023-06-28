@@ -26,7 +26,7 @@ const users = {
     async create({ commit }, data :any) {
         try {
             console.log(data);
-          const users = await userRepository.createUser(data);
+          const users = await userRepository.post(data);
           commit('SET_USERS', users);
         } catch (error) {
           console.error(error);
