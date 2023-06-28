@@ -13,17 +13,20 @@ class BaseRepository {
   protected get<T>(): Promise<AxiosResponse<T>> {
     return this.axios.get<T>(this.endpoint);
   }
+  protected getById<T>(id : number): Promise<AxiosResponse<T>> {
+    return this.axios.get<T>(this.endpoint + "/" + id);
+  }
 
   protected post<T>(data?: any): Promise<AxiosResponse<T>> {
     return this.axios.post<T>(this.endpoint, data);
   }
 
-  protected put<T>(data?: any): Promise<AxiosResponse<T>> {
-    return this.axios.put<T>(this.endpoint, data);
+  protected put<T>(id: number, data?: any): Promise<AxiosResponse<T>> {
+    return this.axios.put<T>(this.endpoint + "/" + id, data);
   }
 
-  protected delete<T>(): Promise<AxiosResponse<T>> {
-    return this.axios.delete<T>(this.endpoint);
+  protected delete<T>(id: number): Promise<AxiosResponse<T>> {
+    return this.axios.delete<T>(this.endpoint + "/" + id);
   }
 }
 

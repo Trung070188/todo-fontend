@@ -25,8 +25,27 @@ const users = {
     },
     async create({ commit }, data :any) {
         try {
-            console.log(data);
           const users = await userRepository.post(data);
+          commit('SET_USERS', users);
+        } catch (error) {
+          console.error(error);
+          throw new Error('Failed to fetch users');
+        }
+      },
+      async update ({ commit }, data:any) {
+        try {
+            console.log(data);
+          const users = await userRepository.put(data.id, data);
+          commit('SET_USERS', users);
+        } catch (error) {
+          console.error(error);
+          throw new Error('Failed to fetch users');
+        }
+      },
+      async getByUserId({ commit }, id: number) {
+        try {
+          const response = await userRepository.getById(id);
+          const users = response.data; 
           commit('SET_USERS', users);
         } catch (error) {
           console.error(error);

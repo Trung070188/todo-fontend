@@ -36,8 +36,17 @@ const routes = [
   },
   {
     path: '/users/create',
-    name: 'UserForm',
-    component: () => import('@/views/user/UserForm.vue'),
+    name: 'CreateUser',
+    component: () => import('@/views/user/Create.vue'),
+    props: true,
+    meta: { requiresAuth: true }
+
+  },
+  {
+    path: '/users/:id',
+    name: 'UpdateUser',
+    component: () => import('@/views/user/Update.vue'),
+    props: true,
     meta: { requiresAuth: true }
 
   },
