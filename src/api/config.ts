@@ -7,6 +7,12 @@ const api = axios.create({
   },
 });
 
+const token = localStorage.getItem('token');
+
+if (token) {
+  api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
+
 export async function login(email, password) {
   try {
     const response = await api.post('/login', { email, password });
