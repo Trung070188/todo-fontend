@@ -1,12 +1,12 @@
 // store/index.js
 import { createStore } from 'vuex';
 import users from './users';
-import login from './login';
+import userLogin from './Login';
 
 const store = createStore({
   modules: {
     users,
-    login
+    userLogin
   },
 });
 

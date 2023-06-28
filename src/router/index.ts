@@ -10,24 +10,36 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/components/Login.vue'),
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: () => import('@/components/Register.vue'),
+    path: '',
+    name: 'LayoutLogin',
+    component: () => import('@/layouts/LayoutLogin.vue'),
+    children : [
+      {
+        path: '/login',
+        name: 'Login',
+        component: () => import('@/components/Login.vue'),
+      },
+      {
+        path: '/register',
+        name: 'Register',
+        component: () => import('@/components/Register.vue'),
+      },
+
+    ]
   },
   {
     path: '/users',
     name: 'UserIndex',
     component: () => import('@/views/user/UserIndex.vue'),
+    meta: { requiresAuth: true }
+
   },
   {
     path: '/users/create',
     name: 'UserForm',
     component: () => import('@/views/user/UserForm.vue'),
+    meta: { requiresAuth: true }
+
   },
 ]
 

@@ -10,7 +10,7 @@
               <v-img src="@/assets/logo.png" alt="Fedorae Education Log" contain height="200"></v-img>
             </a>
             <v-card-text>
-              <v-form @submit.prevent="submitLogin">
+              <v-form @submit.prevent="submitLogin()">
                 <v-text-field v-model="email" label="Enter your email" name="email" prepend-inner-icon="mdi-email" type="email" class="rounded-0" outlined></v-text-field>
                 <v-text-field v-model="password" label="Enter your password" name="password" prepend-inner-icon="mdi-lock" type="password" suffix="| Forgot?" class="rounded-0" outlined></v-text-field>
                 <v-btn class="rounded-0" x-large block type="submit">Login</v-btn>
@@ -30,35 +30,34 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+
 export default {
-  name: 'Login',
-  data()
-  {
-    return {
-      email: '',
-      password: '',
-    };
-  },
-  computer:{
-    ...mapGetters(['token'])
-  },
-  methods: {
-    ...mapActions(['login']),
-    submitLogin()
-    {
-        console.log(this.email);
-        this.login({email:this.email, password:this.password})
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const store = useStore();
+    const router = useRouter();
+
+    const submitLogin = () => {
+      store
+        .dispatch('login', { email: email.value, password: password.value })
         .then(() => {
-          this.$router.push('/');
+          router.push('/users');
         })
         .catch((error) => {
-          console.log('Đăng nhập thất bại:', error);
+          console.log(error);
         });
-    }
-    },
+    };
+
+    return { email, password, submitLogin };
+  },
 };
 </script>
+
 
 <style lang="css" scoped>
 </style>

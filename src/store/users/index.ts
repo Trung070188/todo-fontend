@@ -1,5 +1,5 @@
 import { UserRepository } from '@/repositories/users/UserRepository';
-import { Users } from '@/repositories/interface';
+import { User } from '@/repositories/interface';
 
 const userRepository = new UserRepository(); // Create an instance of UserRepository
 

@@ -1,8 +1,9 @@
 <template>
   <v-container>
-    <router-link :to="{ name: 'UserCreate' }">
-      <v-btn color="primary" :to="{ name: 'UserCreate' }">Create</v-btn>
+    <router-link :to="{ name: 'UserForm' }">
+      <v-btn color="primary" :to="{ name: 'UserForm' }">Create</v-btn>
     </router-link>
+    <v-btn color="primary" class="ml-2" @click="logout">Logout</v-btn>
     
   <v-table>
     <thead>
@@ -30,7 +31,6 @@
       <td>{{ item.name }}</td>
       <td>{{ item.email }}</td>
       <td>
-        <router-link :to="{ name: 'UserForm', params: { userData: item.id } }">Edit</router-link>
       </td>
     </tr>
     </tbody>
@@ -41,16 +41,29 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const store = useStore();
+    const router = useRouter();
 
     const users = computed(() => store.getters['getUsers']);
+    console.log(users)
+
+    const logout = () => {
+      store.dispatch('logout')
+        .then(() => {
+          router.push('/login');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
     store.dispatch('fetchUsers');
 
-    return { users };
+    return { users, logout };
   },
 };
 </script>
