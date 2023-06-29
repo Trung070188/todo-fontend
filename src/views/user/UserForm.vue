@@ -22,9 +22,10 @@
 <script lang="ts">
 import { ref } from "vue";
 import { IUser } from "@/repositories/interface";
-import type { PropType } from "vue";
+import { Field, Form, ErrorMessage } from 'vee-validate';
 
 export default {
+  components: {},
   props: {
     user: { type: Object as PropType<IUser> },
     userId: { type: Number },

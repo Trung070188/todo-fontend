@@ -3,18 +3,17 @@
 </template>
 
 <script lang="ts">
-import UserForm from './UserForm.vue';
-import { ref } from 'vue';
-import { UserRepository } from '@/repositories/users/UserRepository';
-import { useRoute } from 'vue-router';
+import UserForm from "./UserForm.vue";
+import { ref, inject } from "vue";
+import { IUser } from "@/repositories/interface";
 
 export default {
   components: { UserForm },
-  props: ['id'],
+  props: ["id"],
   setup(props) {
-    const user = ref(null); 
-
-    const userRepository = new UserRepository();
+    const user = ref(null);
+    const repository = inject("repository") as Function;
+    const userRepository = repository("user");
 
     const getUserId = async () => {
       try {
@@ -28,15 +27,15 @@ export default {
     getUserId();
 
     return {
-      handleUpdate: (val) => {
-        console.log(val.id);
-        userRepository.put(val.id ,val)
-        .then(() => {
-          console.log('ok');
-        })
-        .catch((error) => {
-          console.error(error);
-        })
+      handleUpdate: (val: IUser) => {
+        userRepository
+          .put(val.id, val)
+          .then(() => {
+            console.log("ok");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       },
       user,
     };

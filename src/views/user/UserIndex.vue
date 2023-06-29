@@ -4,7 +4,6 @@
       <v-btn color="primary">Create</v-btn>
     </router-link>
     <v-btn color="primary" class="ml-2" @click="logout">Logout</v-btn>
-
     <v-table>
       <thead>
         <tr>
@@ -36,10 +35,12 @@
 import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import BaseTable from "@/components/BaseTable.vue"
 import { UserRepository } from '@/repositories/users/UserRepository';
 
 
 export default {
+  components: {BaseTable},
   setup() {
     const userRepository =  new UserRepository();
     const store = useStore();
