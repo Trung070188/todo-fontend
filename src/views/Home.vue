@@ -1,7 +1,6 @@
 <template>
-  <HelloWorld />
-</template>
-
-<script lang="ts" setup>
-  import HelloWorld from '@/components/HelloWorld.vue'
-</script>
+	<main id="Home-page">
+		<h1>Home</h1>
+		<p>This is the home page</p>
+	</main>
+</template>@/views/HelloWorld.vue
