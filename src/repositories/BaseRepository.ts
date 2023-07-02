@@ -13,12 +13,17 @@ class BaseRepository {
   protected get<T>(): Promise<AxiosResponse<T>> {
     return this.axios.get<T>(this.endpoint);
   }
-  protected getById<T>(id : number): Promise<AxiosResponse<T>> {
+  protected getById<T>(id: number): Promise<AxiosResponse<T>> {
     return this.axios.get<T>(this.endpoint + "/" + id);
   }
 
-  protected post<T>(data?: any): Promise<AxiosResponse<T>> {
-    return this.axios.post<T>(this.endpoint, data);
+  protected async post<T>(data?: any): Promise<AxiosResponse<T>> {
+    try {
+      const response = await this.axios.post<T>(this.endpoint, data);
+      return response;
+    } catch (response: any) {
+      throw response;
+    }
   }
 
   protected put<T>(id: number, data?: any): Promise<AxiosResponse<T>> {

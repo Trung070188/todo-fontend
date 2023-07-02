@@ -21,7 +21,9 @@ class ConfigAxios {
     localStorage.removeItem("token");
   }
 
-  protected async handleRequest<T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+  protected async handleRequest<T>(
+    config: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
     const token = this.getToken();
 
     if (token) {
@@ -33,21 +35,52 @@ class ConfigAxios {
     return response;
   }
 
-  public async get<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.handleRequest<T>({ method: "GET", url: this.baseUrl + url, ...config });
+  public async get<T>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return this.handleRequest<T>({
+      method: "GET",
+      url: this.baseUrl + url,
+      ...config,
+    });
   }
 
-  public async post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    console.log("data: " + data);
-    return this.handleRequest<T>({ method: "POST", url: this.baseUrl + url, data, ...config });
+  public async post<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return this.handleRequest<T>({
+      method: "POST",
+      url: this.baseUrl + url,
+      data,
+      ...config,
+    });
   }
 
-  public async put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.handleRequest<T>({ method: "PUT", url: this.baseUrl + url, data, ...config });
+  public async put<T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return this.handleRequest<T>({
+      method: "PUT",
+      url: this.baseUrl + url,
+      data,
+      ...config,
+    });
   }
 
-  public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.handleRequest<T>({ method: "DELETE", url: this.baseUrl + url, ...config });
+  public async delete<T>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return this.handleRequest<T>({
+      method: "DELETE",
+      url: this.baseUrl + url,
+      ...config,
+    });
   }
 }
 

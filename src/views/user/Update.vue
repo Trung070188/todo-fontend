@@ -4,38 +4,39 @@
 
 <script lang="ts">
 import UserForm from "./UserForm.vue";
-import { ref, inject } from "vue";
+import { ref, inject, onMounted } from "vue";
 import { IUser } from "@/repositories/interface";
+import { useRouter } from "vue-router";
+import toastr from "toastr";
+import "toastr/toastr.scss";
+
 
 export default {
   components: { UserForm },
   props: ["id"],
   setup(props) {
+    const route = useRouter();
     const user = ref(null);
     const repository = inject("repository") as Function;
     const userRepository = repository("user");
 
-    const getUserId = async () => {
+    onMounted(async () => {
       try {
         const response = await userRepository.getById(props.id);
         user.value = response.data.data;
-      } catch (error) {
-        console.error(error);
+      } catch (e) {
+        console.error(e);
       }
-    };
-
-    getUserId();
-
+    });
     return {
-      handleUpdate: (val: IUser) => {
-        userRepository
-          .put(val.id, val)
-          .then(() => {
-            console.log("ok");
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+      handleUpdate: async (val: IUser) => {
+        try {
+          const response = await userRepository.put(val.id, val);
+          toastr.success('Đã sửa')
+          route.push("/users");
+        } catch (response){
+          toastr.error(response.response.data.message)
+        }
       },
       user,
     };

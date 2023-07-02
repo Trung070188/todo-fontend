@@ -7,7 +7,7 @@
 // Components
 import App from './App.vue'
 import store from '@/store'
-import repostitory from './boot/repostitory'
+import repository from './boot/repository'
 
 // Composables
 import { createApp } from 'vue'
@@ -19,4 +19,4 @@ const app = createApp(App)
 
 registerPlugins(app)
 
-app.use(store).use(repostitory).mount('#app')
+app.use(store).use(repository).mount('#app')

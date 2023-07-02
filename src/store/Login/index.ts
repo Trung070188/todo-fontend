@@ -1,5 +1,4 @@
 import { login } from '@/api/config';
-import { createStore } from 'vuex';
 
 interface UserLoginState {
   token: string;

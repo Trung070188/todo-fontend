@@ -19,7 +19,7 @@
           <td>{{ item.name }}</td>
           <td>{{ item.email }}</td>
           <td>
-            <router-link :to="{ name: 'UpdateUser', params :{id: item.id}}">
+            <router-link :to="{ name: 'UpdateUser', params: { id: item.id } }">
               <v-btn color="primary">Edit</v-btn>
             </router-link>
             <v-btn color="red" class="ml-2" @click="remove(item.id)"
@@ -32,20 +32,24 @@
   </v-container>
 </template>
 <script>
-import { computed } from "vue";
+import { computed, inject, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
-import BaseTable from "@/components/BaseTable.vue"
-import { UserRepository } from '@/repositories/users/UserRepository';
-
 
 export default {
-  components: {BaseTable},
+  components: {},
   setup() {
-    const userRepository =  new UserRepository();
     const store = useStore();
     const router = useRouter();
-    const users = computed(() => store.getters["getUsers"]);
+    const repository = inject("repository");
+    const userRepository = repository("user");
+    const users = ref([]);
+    onMounted(async () => {
+      try {
+        const response = await userRepository.get();
+        users.value = response.data;
+      } catch (e) {}
+    });
 
     const logout = () => {
       store
@@ -58,16 +62,15 @@ export default {
         });
     };
     const remove = (id) => {
-     userRepository.delete(id)
-     .then(() => {
-      console.log('delete ok ');
-     })
-     .catch((error) => {
-      console.log(error);
-     })
+      userRepository
+        .delete(id)
+        .then(() => {
+          console.log("delete ok ");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
-
-    store.dispatch("fetchUsers");
 
     return { users, logout, remove };
   },

@@ -4,26 +4,27 @@
 <script lang="ts">
 import UserForm from "./UserForm.vue";
 import { UserRepository } from "@/repositories/users/UserRepository";
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import { IUser } from "@/repositories/interface";
+import { useRouter } from "vue-router";
+import toastr from "toastr";
+import "toastr/toastr.scss";
 
 export default {
   components: { UserForm },
-  setup() {
+  setup(props) {
+    const routes = useRouter();
     const repository = inject("repository") as Function;
     const userRepository = repository("user");
-    console.log(repository);
-    console.log(userRepository);
     return {
-      handleCreate: (val: IUser) => {
-        userRepository
-          .post(val)
-          .then(() => {
-            console.log("create ok");
-          })
-          .catch((error: any) => {
-            console.error(error);
-          });
+      handleCreate: async (val: IUser) => {
+        try {
+          const response = await userRepository.post(val);
+          toastr.success("ok");
+          routes.push("/users");
+        } catch (response) {
+          toastr.error(response.response.data.message);
+        }
       },
     };
   },
